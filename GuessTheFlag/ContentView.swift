@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var showingScore: Bool = false
     @State private var scoreTitle: String = ""
+    @State private var score: Int = 0
     
     @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Monaco", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     @State private var correctAnswer = Int.random(in: 0..<3)
@@ -17,6 +18,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             LinearGradient(colors: [.teal, .black], startPoint: .top, endPoint: .bottom)
+                .ignoresSafeArea()
             
             VStack(spacing: 30) {
                 VStack {
@@ -44,13 +46,14 @@ struct ContentView: View {
         .alert(scoreTitle, isPresented: $showingScore) {
             Button("Continue", action: askQuestion)
         } message: {
-            Text("Your score is ???")
+            Text("Your score is \(score)")
         }
     }
     
     func flagTapped(_ index: Int) {
         if index == correctAnswer {
             scoreTitle = "Correct"
+            score += 1
         } else {
             scoreTitle = "Wrong"
         }
