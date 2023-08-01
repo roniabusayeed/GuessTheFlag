@@ -4,9 +4,9 @@ GuessTheFlag is an engaging and fun iOS app that tests your knowledge of country
 
 ## Screenshots
 
-![Screenshot 1](images/screenshot1.png)
-![Screenshot 2](images/screenshot2.png)
-![Screenshot 3](images/screenshot3.png)
+<img src="images/screenshot1.png" alt="Screenshot 1" width="250" />
+<img src="images/screenshot2.png" alt="Screenshot 2" width="250" />
+<img src="images/screenshot3.png" alt="Screenshot 3" width="250" />
 
 ## Features
 
