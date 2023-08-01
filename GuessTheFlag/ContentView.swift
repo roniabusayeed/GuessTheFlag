@@ -83,7 +83,7 @@ struct ContentView: View {
                 Spacer()
                 
                 // Display score.
-                Text("Your socre: \(score)")
+                Text("Your score: \(score)")
                     .foregroundColor(.white)
                     .font(.title.bold())
                 Spacer()
