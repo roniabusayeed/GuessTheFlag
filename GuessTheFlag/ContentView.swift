@@ -59,10 +59,7 @@ struct ContentView: View {
                         Button {
                             flagTapped(index)
                         } label: {
-                            Image(countries[index])
-                                .renderingMode(.original)
-                                .shadow(radius: 5)
-                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                            FlagImage(countries[index])
                         }
                     }
                     // Immediate feedback alert.
@@ -126,6 +123,21 @@ struct ContentView: View {
     func resetGame() {
         score = 0
         currentNumberOfQuestion = 0
+    }
+}
+
+struct FlagImage: View {
+    let name: String
+    
+    init(_ name: String) {
+        self.name = name
+    }
+    
+    var body: some View {
+        Image(name)
+            .renderingMode(.original)
+            .shadow(radius: 5)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
     }
 }
 
