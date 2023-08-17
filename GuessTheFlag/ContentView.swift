@@ -74,7 +74,6 @@ struct ContentView: View {
         }
     }
     
-    
     func changeOpacity(for index: Int) {
         
         // Fade the opacity of other two buttons to 25%
@@ -96,7 +95,15 @@ struct ContentView: View {
         button2Opacity = 1.0
     }
     
-    
+    func getScaleSize(for index: Int) -> CGSize {
+        
+        // Defining scale size as a function of opacity to avoid writing same kind of code written to handle the opacity.
+        let opacity = getOpacity(for: index)
+        if opacity >= 1.0 {
+            return CGSize(width: 1.0, height: 1.0)
+        }
+        return CGSize(width: 1.0 - opacity, height: 1.0 - opacity)
+    }
     
     var body: some View {
         ZStack {
@@ -125,6 +132,7 @@ struct ContentView: View {
                         } label: {
                             FlagImage(countries[index])
                         }
+                        .scaleEffect(getScaleSize(for: index))
                         .rotation3DEffect(Angle(degrees: getRotationAngle(for: index)), axis: (x: 0, y: 1, z: 0))
                         .opacity(getOpacity(for: index))
                         .animation(.default, value: buttonState)
