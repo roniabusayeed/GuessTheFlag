@@ -12,7 +12,7 @@ GuessTheFlag is an engaging and fun iOS app that tests your knowledge of country
 
 - Simple and intuitive user interface.
 - Learn and test your knowledge of country flags.
-- Immediate feedback with alert messages.
+- Immediate feedback with alert messages and animations.
 - Eight attempts to improve your score.
 
 ## How to Play
