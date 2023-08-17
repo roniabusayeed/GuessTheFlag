@@ -61,6 +61,42 @@ struct ContentView: View {
     
     @State private var buttonState: ButtonState = ButtonState.random()  // it doesn't matter what we start with. The animation 'value' parameter only care about its change to trigger the animation (of any changed properties).
 
+    @State private var button0Opacity: Double = 1.0
+    @State private var button1Opacity: Double = 1.0
+    @State private var button2Opacity: Double = 1.0
+    
+    func getOpacity(for index: Int) -> Double {
+        switch index {
+        case 0: return button0Opacity
+        case 1: return button1Opacity
+        case 2: return button2Opacity
+        default: return .zero
+        }
+    }
+    
+    
+    func changeOpacity(for index: Int) {
+        
+        // Fade the opacity of other two buttons to 25%
+        if index == 0 {
+            button1Opacity = 0.25
+            button2Opacity = 0.25
+        } else if index == 1 {
+            button0Opacity = 0.25
+            button2Opacity = 0.25
+        } else if index == 2 {
+            button0Opacity = 0.25
+            button1Opacity = 0.25
+        }
+    }
+    
+    func resetOpacity() {
+        button0Opacity = 1.0
+        button1Opacity = 1.0
+        button2Opacity = 1.0
+    }
+    
+    
     
     var body: some View {
         ZStack {
@@ -90,6 +126,7 @@ struct ContentView: View {
                             FlagImage(countries[index])
                         }
                         .rotation3DEffect(Angle(degrees: getRotationAngle(for: index)), axis: (x: 0, y: 1, z: 0))
+                        .opacity(getOpacity(for: index))
                         .animation(.default, value: buttonState)
                     }
                     // Immediate feedback alert.
@@ -128,6 +165,8 @@ struct ContentView: View {
     
     func flagTapped(_ index: Int) {
         
+        buttonState.change()    // animation is watching this value.
+        
         // Update the rotation angle of appropriate flag.
         if index == 0 {
             button0RotationAngleInDegrees += 360
@@ -136,7 +175,9 @@ struct ContentView: View {
         } else if index == 2 {
             button2RotationAngleInDegrees += 360
         }
-        buttonState.change()    // animation is watching this value.
+        
+        // Update the opacity of the appropriate flag.
+        changeOpacity(for: index)
         
         currentNumberOfQuestion += 1
         
@@ -159,11 +200,15 @@ struct ContentView: View {
     func askQuestion() {
         countries.shuffle()
         correctAnswer = Int.random(in: 0..<3)
+        
+        resetOpacity()
     }
     
     func resetGame() {
         score = 0
         currentNumberOfQuestion = 0
+        
+        resetOpacity()
     }
 }
 
