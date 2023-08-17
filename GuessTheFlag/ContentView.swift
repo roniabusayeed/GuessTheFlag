@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+// Only for readability.
+typealias ButtonState = Bool
+extension ButtonState {
+    mutating func change() {
+        self.toggle()
+    }
+}
+
 struct ContentView: View {
     @State private var showingScore: Bool = false
     @State private var scoreTitle: String = ""
@@ -32,6 +40,26 @@ struct ContentView: View {
     let maximumNumberOfQuestions = 8
     @State private var currentNumberOfQuestion = 0
     @State private var showingFinalScore: Bool = false
+    
+    // Keep track of rotation angle of all three button separately.
+    @State private var button0RotationAngleInDegrees: Double = .zero
+    @State private var button1RotationAngleInDegrees: Double = .zero
+    @State private var button2RotationAngleInDegrees: Double = .zero
+    
+    func getRotationAngle(for index: Int) -> Double {
+        if index == 0 {
+            return button0RotationAngleInDegrees
+        }
+        if index == 1 {
+            return button1RotationAngleInDegrees
+        }
+        if index == 2 {
+            return button2RotationAngleInDegrees
+        }
+        return .zero
+    }
+    
+    @State private var buttonState: ButtonState = ButtonState.random()  // it doesn't matter what we start with. The animation 'value' parameter only care about its change to trigger the animation (of any changed properties).
 
     
     var body: some View {
@@ -61,6 +89,8 @@ struct ContentView: View {
                         } label: {
                             FlagImage(countries[index])
                         }
+                        .rotation3DEffect(Angle(degrees: getRotationAngle(for: index)), axis: (x: 0, y: 1, z: 0))
+                        .animation(.default, value: buttonState)
                     }
                     // Immediate feedback alert.
                     .alert(scoreTitle, isPresented: $showingScore) {
@@ -97,6 +127,17 @@ struct ContentView: View {
     }
     
     func flagTapped(_ index: Int) {
+        
+        // Update the rotation angle of appropriate flag.
+        if index == 0 {
+            button0RotationAngleInDegrees += 360
+        } else if index == 1 {
+            button1RotationAngleInDegrees += 360
+        } else if index == 2 {
+            button2RotationAngleInDegrees += 360
+        }
+        buttonState.change()    // animation is watching this value.
+        
         currentNumberOfQuestion += 1
         
         if index == correctAnswer {
